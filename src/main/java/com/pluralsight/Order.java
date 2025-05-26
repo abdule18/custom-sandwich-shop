@@ -9,11 +9,14 @@ public class Order {
     private List<Sandwich> snadwich;
     private List<Product> products;
     private LocalDateTime orderTime;
+    private String orderId;
 
-    public Order(List<Sandwich> snadwich, List<Product> products, LocalDateTime orderTime) {
+    public Order(List<Sandwich> snadwich, List<Product> products, LocalDateTime orderTime, String orderId) {
         this.snadwich = new ArrayList<>();
         this.products = new ArrayList<>();
         this.orderTime = orderTime;
+        this.orderId = orderId;
+
     }
 
     public ArrayList<Sandwich> addSandwich(Sandwich sandwich) {
