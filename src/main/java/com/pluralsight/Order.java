@@ -20,6 +20,22 @@ public class Order {
 
     }
 
+    public List<Sandwich> getSnadwichs() {
+        return snadwichs;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public LocalDateTime getOrderTime() {
+        return orderTime;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
     public void addSandwich(Sandwich sandwich) {
         this.snadwichs.add(sandwich);
     }

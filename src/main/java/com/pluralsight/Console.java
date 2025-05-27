@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Console {
 
     Scanner scanner = new Scanner(System.in);
-
     // This method is creating a prompt for user int
     public int promptForInt(String prompt){
         boolean hasResult = false;

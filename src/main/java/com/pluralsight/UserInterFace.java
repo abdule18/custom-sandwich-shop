@@ -52,10 +52,63 @@ public class UserInterFace {
     }
 
     public void showHomeScreen(){
-        System.out.println("Home Screen in progress");
+        String promptUser =
+                "1. New Order\n" +
+                "0. Exit\n";
+
+        int userOption;
+
+        do {
+            userOption = console.promptForInt(promptUser);
+            switch (userOption){
+                case 1:
+                    showOrderScreen();
+                    break;
+                case 0:
+                    System.out.println("Exiting!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+
+        } while (userOption != 0);
+
     }
+
     public void showOrderScreen(){
-        System.out.println("Oder Screen in progress");
+        String promptUser =
+                        "1. Add a Sandwich\n" +
+                        "2. Add a Drink\n" +
+                        "3. Add a Chips\n" +
+                        "4. Checkout\n" +
+                        "0. Cancel Order\n";
+        int option;
+        do {
+            option = console.promptForInt(promptUser);
+
+            switch (option){
+                case 1:
+                    addSandwich();
+                    break;
+                case 2:
+                    addDrink();
+                    break;
+                case 3:
+                    addChips();
+                    break;
+                case 4:
+                    checkout();
+                    break;
+                case 0:
+                    System.out.println("Returning to Home Screen!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+
+        } while (option != 0);
     }
     public void addSandwich(){
         System.out.println("add snadwich in progress");

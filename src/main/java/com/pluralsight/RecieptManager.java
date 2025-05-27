@@ -19,6 +19,16 @@ public class RecieptManager {
             fw.write("Order #: " + timestamp + "\n");
             fw.write("==================================\n\n");
 
+            if (!order.getSnadwichs().isEmpty()) {
+                fw.write("SANDWICHES:\n");
+                for (Sandwich sandwich: order.getSnadwichs()) {
+                    fw.write("- " + sandwich.getDescription() + "\n");
+                    fw.write(" Price: $" + String.format("%.2f", sandwich.calculatePrice()) + "\n\n");
+                }
+            }
+
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
