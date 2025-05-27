@@ -3,7 +3,8 @@ package com.pluralsight;
 public class DeliApplication {
     public static void main(String[] args) {
 
-        System.out.println("Hello and welcome!");
+        UserInterFace ui =  new UserInterFace();
+        ui.run();
 
     }
 }
