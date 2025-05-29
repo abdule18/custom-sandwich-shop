@@ -1,10 +1,10 @@
-package com.pluralsight;
+package com.pluralsight.Menu;
 
 public class Chips extends Product {
     private String type;
 
-    public Chips(String name, double price, String type) {
-        super(name, price);
+    public Chips(String name, String type) {
+        super(name);
         this.type = type;
     }
 
@@ -18,11 +18,11 @@ public class Chips extends Product {
 
     @Override
     public double calculatePrice() {
-        return getPrice();
+        return 1.50;
     };
 
     @Override
     public String getDescription() {
-        return  getName();
+        return getName();
     };
 }

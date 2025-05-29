@@ -1,0 +1,17 @@
+========== DELI ORDER ==========
+Order ID: 20250529-112618
+Time: 05/29/2025 11:26:18
+
+SANDWICHES:
+- EIGHT_INCH WHEAT Sandwich (Toasted)
+  Price: $11.50
+
+OTHER ITEMS:
+- MEDIUM Coke $2.5
+  Price: $2.50
+
+- LaysChips
+  Price: $1.50
+
+TOTAL: $15.50
+================================
