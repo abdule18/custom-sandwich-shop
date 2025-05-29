@@ -1,0 +1,17 @@
+========== DELI ORDER ==========
+Order ID: 20250529-140218
+Time: 05/29/2025 14:02:18
+
+SANDWICHES:
+- EIGHT_INCH RYE Sandwich (Toasted)
+  Price: $12.10
+
+OTHER ITEMS:
+- MEDIUM Sprite $2.5
+  Price: $2.50
+
+- Lays Chips
+  Price: $1.50
+
+TOTAL: $16.10
+================================
