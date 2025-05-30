@@ -6,18 +6,23 @@ This is a Java-based console application that simulates a deli ordering experien
 
 ---
 ## 📸 Application Screens
-#### Interesting Code:
+### INTERESTING CODE:
 
 ![carbon](https://github.com/user-attachments/assets/5eb55900-107f-4f12-9e26-e80488654301)
+
+### CODE SNIPET:
+<img width="1200" alt="Screenshot 2025-05-30 at 2 12 45 AM" src="https://github.com/user-attachments/assets/5319c932-66d9-496f-99fa-9b349f0c4574" />
 
 ### Draw.IO
 ### BEFORE:
 ![snadwichShop drawio](https://github.com/user-attachments/assets/5e6d50a8-e6c1-4498-adfe-397425084f84)
 
-### AFTER
+### AFTER:
 ![customDeli drawio](https://github.com/user-attachments/assets/3e1e06fb-d13a-4dd3-84f7-584100ef786c)
 
+
 ### 🏠 Home Screen
+
     1. Home Screen
     2. Order Screen
     3. Add a Sandwich
