@@ -11,10 +11,10 @@ This is a Java-based console application that simulates a deli ordering experien
 ![carbon](https://github.com/user-attachments/assets/5eb55900-107f-4f12-9e26-e80488654301)
 
 ### Draw.IO
-#### Before
+### BEFORE:
 ![snadwichShop drawio](https://github.com/user-attachments/assets/5e6d50a8-e6c1-4498-adfe-397425084f84)
 
-#### After
+### AFTER
 ![customDeli drawio](https://github.com/user-attachments/assets/3e1e06fb-d13a-4dd3-84f7-584100ef786c)
 
 ### 🏠 Home Screen
