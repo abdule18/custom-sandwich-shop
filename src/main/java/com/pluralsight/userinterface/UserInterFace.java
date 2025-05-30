@@ -1,18 +1,22 @@
 package com.pluralsight.userinterface;
 
-import com.pluralsight.DeliManager.RecieptManager;
+import com.pluralsight.DeliManager.ReceiptManager;
 import com.pluralsight.Emuns.BreadType;
 import com.pluralsight.Emuns.DrinkSize;
 import com.pluralsight.Emuns.SandwichSize;
 import com.pluralsight.Menu.Chips;
 import com.pluralsight.Menu.Drink;
 import com.pluralsight.Menu.Sandwich;
+import com.pluralsight.SignatureMenu.SignatureSandwich;
+import com.pluralsight.SignatureMenu.SignatureSandwichManager;
+import com.pluralsight.Toppings.PremiumToppings;
 import com.pluralsight.console.Console;
 import com.pluralsight.Menu.Order;
 
 public class UserInterFace {
     private static Console console = new Console();
     private Order order = new Order();
+    private SignatureSandwichManager signatureManager = new SignatureSandwichManager();
 
 
 
@@ -25,9 +29,10 @@ public class UserInterFace {
                 "1. Home Screen\n" +
                         "2. Order Screen\n" +
                         "3. Add a Sandwich\n" +
-                        "4. Add a Drink\n" +
-                        "5. Add a Chips\n" +
-                        "6. Checkout\n" +
+                        "4. Add a Signature Sandwich\n" +
+                        "5. Add a Drink\n" +
+                        "6. Add a Chips\n" +
+                        "7. Checkout\n" +
                         "0. Exit\n";
         int option;
         do {
@@ -44,12 +49,15 @@ public class UserInterFace {
                     addSandwich();
                     break;
                 case 4:
-                    addDrink();
+                    addSignatureSandwich();
                     break;
                 case 5:
-                    addChips();
+                    addDrink();
                     break;
                 case 6:
+                    addChips();
+                    break;
+                case 7:
                     checkout();
                     break;
                 case 0:
@@ -90,11 +98,12 @@ public class UserInterFace {
 
     private void showOrderScreen(){
         String promptUser =
-                        "1. Add a Sandwich\n" +
-                        "2. Add a Drink\n" +
-                        "3. Add a Chips\n" +
-                        "4. Checkout\n" +
-                        "0. Cancel Order\n";
+                "1. Add a Sandwich\n" +
+                "2. Add a Signature Sandwich\n" +
+                "3. Add a Drink\n" +
+                "4. Add a Chips\n" +
+                "5. Checkout\n" +
+                "0. Cancel Order\n";
         int option;
         do {
             option = console.promptForInt(promptUser);
@@ -104,12 +113,15 @@ public class UserInterFace {
                     addSandwich();
                     break;
                 case 2:
-                    addDrink();
+                    addSignatureSandwich();
                     break;
                 case 3:
-                    addChips();
+                    addDrink();
                     break;
                 case 4:
+                    addChips();
+                    break;
+                case 5:
                     checkout();
                     break;
                 case 0:
@@ -147,8 +159,7 @@ public class UserInterFace {
         int breadChoice = console.promptForInt("Enter Choice: ");
         BreadType bread = breads[breadChoice - 1];
 
-        String toastedInput = console.promptForString("Do you wanted toasted (yes/no): ");
-        boolean toasted  = toastedInput.equalsIgnoreCase("yes");
+        boolean toasted = console.promptForYesNo("Do you want it toasted? ");
 
         // Create the sandwich object
         Sandwich sandwich  = new Sandwich("Sandwich", size, bread);
@@ -157,6 +168,7 @@ public class UserInterFace {
         addCheeseToppings(sandwich);
         addMeatToppings(sandwich);
         addRegularToppings(sandwich);
+        addSides(sandwich);
         addSauces(sandwich);
 
         System.out.println();
@@ -168,133 +180,401 @@ public class UserInterFace {
         order.addSandwich(sandwich);
 
     }
+    private void addSignatureSandwich() {
+        System.out.println("=== Add a Signature Sandwich ===");
 
-    private void addCheeseToppings(Sandwich sandwich) {
-        String addCheese = console.promptForString("Would you like to add cheese to your sandwich? (yes/no): ");
-        if (!addCheese.equalsIgnoreCase("yes")) {
-            return; // Skip cheese section
+        // Display available signature sandwiches
+        String[] signatureOptions = {"BLT", "PHILLY CHEESE STEAK"};
+        int index = 1;
+        System.out.println("Available Signature Sandwiches:");
+        for (String signature : signatureOptions) {
+            System.out.println(index++ + ". " + signature);
         }
 
-        String[] cheeseOptions = {"American", "Provolone", "Cheddar", "Swiss"};
-        boolean addMore = true;
+        int signatureChoice = console.promptForInt("Select a signature sandwich: ");
+        if (signatureChoice < 1 || signatureChoice > signatureOptions.length) {
+            System.out.println("Invalid choice.");
+            return;
+        }
 
-        while (addMore) {
+        String selectedSignature = signatureOptions[signatureChoice - 1];
+
+        // Choose size
+        System.out.println("Choose a size:");
+        SandwichSize[] sizes = SandwichSize.values();
+        int sizeIndex = 1;
+        for (SandwichSize s : sizes) {
+            System.out.println(sizeIndex++ + ". " + s);
+        }
+
+        int sizeChoice = console.promptForInt("Enter Choice: ");
+        if (sizeChoice < 1 || sizeChoice > sizes.length) {
+            System.out.println("Invalid size choice.");
+            return;
+        }
+        SandwichSize size = sizes[sizeChoice - 1];
+
+        boolean customize = console.promptForYesNo("Would you like to customize this signature sandwich?");
+
+        SignatureSandwich signatureSandwich = signatureManager.createSignatureSandwich(selectedSignature, size);
+
+        if (customize) {
+            Sandwich customSandwich = signatureSandwich.createCustomizableCopy();
+
+            System.out.println("Starting with the base " + selectedSignature + " sandwich...");
+            System.out.println("Current toppings:\n" + customSandwich.getFullBreakdown());
+
+            if (console.promptForYesNo("Would you like to add more toppings?")) {
+                addCheeseToppings(customSandwich);
+                addMeatToppings(customSandwich);
+                addRegularToppings(customSandwich);
+                addSauces(customSandwich);
+            }
+
+            if (console.promptForYesNo("Would you like to remove any existing toppings?")) {
+                removeToppingsFromSandwich(customSandwich);
+            }
+
+            order.addSandwich(customSandwich);
+            System.out.println("✅ Customized " + selectedSignature + " added to your order!");
+            System.out.println("Final sandwich:\n" + customSandwich.getFullBreakdown());
+            System.out.println("Total Price: $" + String.format("%.2f", customSandwich.calculatePrice()));
+        } else {
+            order.addSandwich(signatureSandwich);
+            System.out.println("✅ " + selectedSignature + " signature sandwich added to your order!");
+            System.out.println(signatureSandwich.getFullBreakdown());
+            System.out.println("Total Price: $" + String.format("%.2f", signatureSandwich.calculatePrice()));
+        }
+        System.out.println();
+    }
+//    private void addSignatureSandwich() {
+//        System.out.println("=== Add a Signature Sandwich ===");
+//
+//        // Display available signature sandwiches with descriptions
+//        signatureManager.displaySignatureSandwichMenu();
+//
+//        String[] signatureOptions = {"BLT", "PHILLY CHEESE STEAK"};
+//        int index = 1;
+//        System.out.println("Available Signature Sandwiches:");
+//        for (String signature : signatureOptions) {
+//            System.out.println(index++ + ". " + signature);
+//        }
+//
+//        int signatureChoice = console.promptForInt("Select a signature sandwich: ");
+//        if (signatureChoice < 1 || signatureChoice > signatureOptions.length) {
+//            System.out.println("Invalid choice.");
+//            return;
+//        }
+//
+//        String selectedSignature = signatureOptions[signatureChoice - 1];
+//
+//        // Choose size
+//        System.out.println("Choose a size: ");
+//        SandwichSize[] sizes = SandwichSize.values();
+//        int sizeIndex = 1;
+//        for (SandwichSize s : sizes) {
+//            System.out.println(sizeIndex++ + ". " + s);
+//        }
+//
+//        int sizeChoice = console.promptForInt("Enter Choice: ");
+//        if (sizeChoice < 1 || sizeChoice > sizes.length) {
+//            System.out.println("Invalid size choice.");
+//            return;
+//        }
+//        SandwichSize size = sizes[sizeChoice - 1];
+//
+//        // Ask if customer wants to customize
+//        String customizeInput = console.promptForString("Would you like to customize this signature sandwich? (yes/no): ");
+//
+//        SignatureSandwich signatureSandwich = signatureManager.createSignatureSandwich(selectedSignature, size);
+//
+//        if (customizeInput.equalsIgnoreCase("yes")) {
+//            // Convert to regular sandwich for customization
+//            Sandwich customSandwich = signatureSandwich.createCustomizableCopy();
+//
+//            System.out.println("Starting with the base " + selectedSignature + " sandwich...");
+//            System.out.println("Current toppings: " + customSandwich.getDescription());
+//            System.out.println();
+//
+//            // Allow additional customizations
+//            String addMore = console.promptForString("Would you like to add more toppings? (yes/no): ");
+//            if (addMore.equalsIgnoreCase("yes")) {
+//                addCheeseToppings(customSandwich);
+//                addMeatToppings(customSandwich);
+//                addRegularToppings(customSandwich);
+//                addSauces(customSandwich);
+//            }
+//
+//            // Ask about removing toppings
+//            String removeToppings = console.promptForString("Would you like to remove any existing toppings? (yes/no): ");
+//            if (removeToppings.equalsIgnoreCase("yes")) {
+//                removeToppingsFromSandwich(customSandwich);
+//            }
+//
+//            order.addSandwich(customSandwich);
+//            System.out.println("✅ Customized " + selectedSignature + " added to your order!");
+//            System.out.println("Final sandwich: " + customSandwich.getDescription());
+//            System.out.println("Total Price: $" + String.format("%.2f", customSandwich.calculatePrice()));
+//        } else {
+//            // Add signature sandwich as-is
+//            order.addSandwich(signatureSandwich);
+//            System.out.println("✅ " + selectedSignature + " signature sandwich added to your order!");
+//            System.out.println(signatureSandwich.getDescription());
+//            System.out.println("Total Price: $" + String.format("%.2f", signatureSandwich.calculatePrice()));
+//        }
+//        System.out.println();
+//    }
+    private void removeToppingsFromSandwich(Sandwich sandwich) {
+        System.out.println("=== Remove Toppings ===");
+        System.out.println("Current toppings on your sandwich:");
+
+        // Display premium toppings
+        if (!sandwich.getPremiumToppings().isEmpty()) {
+            System.out.print("Premium toppings: ");
+            for (int i = 0; i < sandwich.getPremiumToppings().size(); i++) {
+                PremiumToppings topping = sandwich.getPremiumToppings().get(i);
+                System.out.print(topping.getName());
+                if (topping.isExtra()) {
+                    System.out.print(" (Extra)");
+                }
+                if (i < sandwich.getPremiumToppings().size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+        }
+
+        // Display regular toppings
+        if (!sandwich.getRegularToppings().isEmpty()) {
+            System.out.print("Regular toppings: ");
+            for (int i = 0; i < sandwich.getRegularToppings().size(); i++) {
+                System.out.print(sandwich.getRegularToppings().get(i).getName());
+                if (i < sandwich.getRegularToppings().size() - 1) {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+        }
+
+        String toppingToRemove = console.promptForString("Enter the name of the topping to remove (or 'done' to finish): ");
+        while (!toppingToRemove.equalsIgnoreCase("done")) {
+            if (sandwich.hasPremiumTopping(toppingToRemove)) {
+                sandwich.removePremiumTopping(toppingToRemove);
+                System.out.println("✅ Removed " + toppingToRemove);
+            } else if (sandwich.hasRegularTopping(toppingToRemove)) {
+                sandwich.removeRegularTopping(toppingToRemove);
+                System.out.println("✅ Removed " + toppingToRemove);
+            } else {
+                System.out.println("❌ Topping not found: " + toppingToRemove);
+            }
+
+            toppingToRemove = console.promptForString("Enter another topping to remove (or 'done' to finish): ");
+        }
+    }
+    private void addCheeseToppings(Sandwich sandwich) {
+        if (!console.promptForYesNo("Would you like to add cheese to your sandwich?")) return;
+
+        String[] cheeseOptions = {"American", "Provolone", "Cheddar", "Swiss"};
+
+        boolean done = false;
+        while (!done) {
             System.out.println("\n--- Cheese Options ---");
             int index = 1;
             for (String cheese : cheeseOptions) {
-                System.out.println(index++ + ". " + cheese);
+                boolean added = false;
+                boolean isExtra = false;
+                for (PremiumToppings topping : sandwich.getCheeseToppings()) {
+                    if (topping.getName().equalsIgnoreCase(cheese)) {
+                        added = true;
+                        isExtra = topping.isExtra();
+                        break;
+                    }
+                }
+                String status = added ? (isExtra ? "[ADDED /w EXTRA]" : "[ADDED]") : "";
+                System.out.println(index + ". " + cheese + " " + status);
+                index++;
             }
+            System.out.println(index + ". Done");
 
             int choice = console.promptForInt("Select the corresponding number: ");
-            if (choice >= 1 && choice <= cheeseOptions.length) {
+
+            if (choice == cheeseOptions.length + 1) {
+                done = true;
+            } else if (choice >= 1 && choice <= cheeseOptions.length) {
                 String selectedCheese = cheeseOptions[choice - 1];
-                String extraInput = console.promptForString("Do you want extra " + selectedCheese + "? (yes/no): ");
-                boolean isExtra = extraInput.equalsIgnoreCase("yes");
+                boolean alreadyAdded = false;
+                for (PremiumToppings topping : sandwich.getCheeseToppings()) {
+                    if (topping.getName().equalsIgnoreCase(selectedCheese)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (alreadyAdded) {
+                    System.out.println("❌ You've already added this cheese.");
+                    continue;
+                }
+
+                boolean isExtra = console.promptForYesNo("Do you want extra " + selectedCheese + "?");
                 sandwich.addPremiumTopping(selectedCheese, isExtra);
-                System.out.println("Adding " + selectedCheese + (isExtra ? " (Extra)" : ""));
+                System.out.println("✅ Added " + selectedCheese + (isExtra ? " (Extra)" : ""));
             } else {
                 System.out.println("Invalid choice.");
             }
-
-            int more = console.promptForInt("Do you want to add another cheese? (1-Yes, 2-No): ");
-            addMore = (more == 1);
         }
     }
 
     private void addMeatToppings(Sandwich sandwich) {
-        String addMeat = console.promptForString("Would you like to add Meat Topping to your sandwich? (yes/no): ");
-        if (!addMeat.equalsIgnoreCase("yes")) {
-            return; // Skip cheese section
-        }
-        String[] meatOptions = {"Steak", "Ham", "Salami", "Roast Beef", "Chicken", "Bacon"};
-        boolean addMore = true;
+        if (!console.promptForYesNo("Would you like to add Meat Topping to your sandwich?: ")) return;
 
-        while (addMore) {
+        String[] meatOptions = {"Steak", "Ham", "Salami", "Roast Beef", "Chicken", "Bacon"};
+
+        boolean done = false;
+        while (!done) {
             System.out.println("\n--- Meat Options ---");
             int index = 1;
             for (String meat : meatOptions) {
-                System.out.println(index++ + ". " + meat);
+                boolean added = false;
+                boolean isExtra = false;
+                for (PremiumToppings topping : sandwich.getMeatToppings()) {
+                    if (topping.getName().equalsIgnoreCase(meat)) {
+                        added = true;
+                        isExtra = topping.isExtra();
+                        break;
+                    }
+                }
+                String status = added ? (isExtra ? "[ADDED /w EXTRA]" : "[ADDED]") : "";
+                System.out.println(index + ". " + meat + " " + status);
+                index++;
             }
+            System.out.println(index + ". Done");
 
             int choice = console.promptForInt("Select the corresponding number: ");
-            if (choice >= 1 && choice <= meatOptions.length) {
+
+            if (choice == meatOptions.length + 1) {
+                done = true;
+            } else if (choice >= 1 && choice <= meatOptions.length) {
                 String selectedMeat = meatOptions[choice - 1];
-                String extraInput = console.promptForString("Do you want extra " + selectedMeat + "? (yes/no): ");
-                boolean isExtra = extraInput.equalsIgnoreCase("yes");
+                boolean alreadyAdded = false;
+                for (PremiumToppings topping : sandwich.getMeatToppings()) {
+                    if (topping.getName().equalsIgnoreCase(selectedMeat)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+
+                if (alreadyAdded) {
+                    System.out.println("❌ You've already added this meat.");
+                    continue;
+                }
+
+                boolean isExtra = console.promptForYesNo("Do you want extra " + selectedMeat + "?");
                 sandwich.addPremiumTopping(selectedMeat, isExtra);
-                System.out.println("Adding " + selectedMeat + (isExtra ? " (Extra)" : ""));
+                System.out.println("✅ Added " + selectedMeat + (isExtra ? " (Extra)" : ""));
             } else {
                 System.out.println("Invalid choice.");
             }
-
-            int more = console.promptForInt("Do you want to add another meat? (1-Yes, 2-No): ");
-            addMore = (more == 1);
         }
     }
 
     private void addRegularToppings(Sandwich sandwich) {
-        String addVegetable = console.promptForString("Would you like to add Vegetable to your sandwich? (yes/no): ");
-        if (!addVegetable.equalsIgnoreCase("yes")) {
-            return; // Skip cheese section
-        }
-        String[] regularOptions = {
-                "Lettuce", "Peppers", "Onions", "Tomatoes", "Jalapeños",
-                "Cucumbers", "Pickles", "Guacamole", "Mushrooms"
-        };
+        if (!console.promptForYesNo("Would you like to add Vegetable Topping to your sandwich?")) return;
 
-        boolean addMore = true;
+        String[] regularOptions = {"Lettuce", "Peppers", "Onions", "Tomatoes", "Jalapeños", "Cucumbers", "Pickles", "Guacamole", "Mushrooms"};
 
-        while (addMore) {
+        boolean done = false;
+        while (!done) {
             System.out.println("\n--- Regular Topping Options ---");
             int index = 1;
             for (String topping : regularOptions) {
-                System.out.println(index++ + ". " + topping);
+                boolean added = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(topping)) {
+                        added = true;
+                        break;
+                    }
+                }
+                String status = added ? "[ADDED]" : "";
+                System.out.println(index + ". " + topping + " " + status);
+                index++;
             }
+            System.out.println(index + ". Done");
 
             int choice = console.promptForInt("Select the corresponding number: ");
-            if (choice >= 1 && choice <= regularOptions.length) {
+
+            if (choice == regularOptions.length + 1) {
+                done = true;
+            } else if (choice >= 1 && choice <= regularOptions.length) {
                 String selectedTopping = regularOptions[choice - 1];
+                boolean alreadyAdded = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(selectedTopping)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+                if (alreadyAdded) {
+                    System.out.println("❌ You've already added this topping.");
+                    continue;
+                }
                 sandwich.addRegularTopping(selectedTopping);
-                System.out.println("Adding " + selectedTopping);
+                System.out.println("✅ Added " + selectedTopping);
             } else {
                 System.out.println("Invalid choice.");
             }
-
-            int more = console.promptForInt("Do you want to add another topping? (1-Yes, 2-No): ");
-            addMore = (more == 1);
         }
     }
 
     private void addSauces(Sandwich sandwich) {
-        String addSauce = console.promptForString("Would you like to add any Sauce? (yes/no): ");
-        if (!addSauce.equalsIgnoreCase("yes")) {
-            return; // Skip cheese section
-        }
-        String[] sauceOptions = {"Mayo", "Mustard", "Ketchup", "Ranch", "Thousand Islands", "Vinaigrette"};
-        boolean addMore = true;
+        if (!console.promptForYesNo("Would you like to add any sauce?")) return;
 
-        while (addMore) {
+        String[] sauceOptions = {"Mayo", "Mustard", "Ketchup", "Ranch", "Thousand Islands", "Vinaigrette"};
+
+        boolean done = false;
+        while (!done) {
             System.out.println("\n--- Sauce Options ---");
             int index = 1;
             for (String sauce : sauceOptions) {
-                System.out.println(index++ + ". " + sauce);
+                boolean added = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(sauce)) {
+                        added = true;
+                        break;
+                    }
+                }
+                String status = added ? "[ADDED]" : "";
+                System.out.println(index + ". " + sauce + " " + status);
+                index++;
             }
+            System.out.println(index + ". Done");
 
             int choice = console.promptForInt("Select the corresponding number: ");
-            if (choice >= 1 && choice <= sauceOptions.length) {
+
+            if (choice == sauceOptions.length + 1) {
+                done = true;
+            } else if (choice >= 1 && choice <= sauceOptions.length) {
                 String selectedSauce = sauceOptions[choice - 1];
+                boolean alreadyAdded = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(selectedSauce)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+                if (alreadyAdded) {
+                    System.out.println("❌ You've already added this sauce.");
+                    continue;
+                }
                 sandwich.addRegularTopping(selectedSauce);
-                System.out.println("✅ Adding " + selectedSauce);
+                System.out.println("✅ Added " + selectedSauce);
             } else {
                 System.out.println("Invalid choice.");
             }
-
-            int more = console.promptForInt("Do you want to add another sauce? (1-Yes, 2-No): ");
-            addMore = (more == 1);
         }
     }
 
-    public void addDrink(){
+
+    private void addDrink(){
         System.out.println("=== Add a Drink ===");
         DrinkSize[] sizes = DrinkSize.values();
         int index = 1;
@@ -333,7 +613,7 @@ public class UserInterFace {
         System.out.println("Price: $" + String.format("%.2f", drink.calculatePrice()));
 
     }
-    public void addChips(){
+    private void addChips(){
         System.out.println("=== Add a Chips ===");
 
         String[] chipTypes = {"Doritos", "Lays", "Cheetos", "Sun Chips", "BBQ", "Salt & Vinegar"};
@@ -355,17 +635,63 @@ public class UserInterFace {
         System.out.println("✅ " + selectedChip + " added.");
         System.out.println("Price: $" + String.format("%.2f", chips.calculatePrice()));
     }
-    public void checkout(){
+    private void addSides(Sandwich sandwich) {
+        if (!console.promptForYesNo("Would you like to add sides to your sandwich?")) return;
+
+        String[] sideOptions = {"Au Jus", "Sauce"};
+
+        boolean done = false;
+        while (!done) {
+            System.out.println("\n--- Side Options ---");
+            int index = 1;
+            for (String side : sideOptions) {
+                boolean added = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(side)) {
+                        added = true;
+                        break;
+                    }
+                }
+                String status = added ? "[ADDED]" : "";
+                System.out.println(index + ". " + side + " " + status);
+                index++;
+            }
+            System.out.println(index + ". Done");
+
+            int choice = console.promptForInt("Select the corresponding number: ");
+
+            if (choice == sideOptions.length + 1) {
+                done = true;
+            } else if (choice >= 1 && choice <= sideOptions.length) {
+                String selectedSide = sideOptions[choice - 1];
+                boolean alreadyAdded = false;
+                for (String existing : sandwich.getRegularToppings().stream().map(t -> t.getName()).toList()) {
+                    if (existing.equalsIgnoreCase(selectedSide)) {
+                        alreadyAdded = true;
+                        break;
+                    }
+                }
+                if (alreadyAdded) {
+                    System.out.println("❌ You've already added this side.");
+                    continue;
+                }
+                sandwich.addRegularTopping(selectedSide);
+                System.out.println("✅ Added " + selectedSide);
+            } else {
+                System.out.println("Invalid choice.");
+            }
+        }
+    }
+    private void checkout(){
         System.out.println("=== Checking Out ===");
 
         // Show the full order
         System.out.println(order.getOrderDetails());
 
         // Ask if user wants to save receipt
-        String save = console.promptForString("Would you like to confirm this order? (yes/no): ");
-        if (save.equalsIgnoreCase("yes")); {
-            RecieptManager manager = new RecieptManager();
-            manager.saveReciept(order);
+        if (console.promptForYesNo("Would you like to confirm this order?")) {
+            ReceiptManager manager = new ReceiptManager();
+            manager.saveReceipt(order);
             System.out.println("Receipt Saved!");
         }
 

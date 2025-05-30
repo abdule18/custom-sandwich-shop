@@ -69,7 +69,7 @@ public class Order {
         if (!sandwiches.isEmpty()) {
             sb.append("SANDWICHES:\n");
             for (Sandwich s : sandwiches){
-                sb.append("- ").append(s.getDescription()).append("\n");
+                sb.append(s.getFullBreakdown()).append("\n");
                 sb.append("  Price: $").append(String.format("%.2f", s.calculatePrice())).append("\n\n");
             }
         }

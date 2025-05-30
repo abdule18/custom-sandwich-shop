@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sandwich extends Product {
+
+    // === Fields ===
     private SandwichSize size;
     private BreadType breadType;
     private boolean toasted;
     private List<PremiumToppings> premiumToppings;
     private List<RegularToppings> regularToppings;
 
+    // === Constructor ===
     public Sandwich(String name, SandwichSize size, BreadType breadType) {
         super(name);
         this.size = size;
@@ -24,8 +27,8 @@ public class Sandwich extends Product {
         this.regularToppings = new ArrayList<>();
     }
 
-    // Returns base price based on sandwich size
-    public double getBasePricing(){
+    // === Base Price ===
+    public double getBasePricing() {
         return switch (size) {
             case FOUR_INCH -> 5.50;
             case EIGHT_INCH -> 7.00;
@@ -33,61 +36,43 @@ public class Sandwich extends Product {
         };
     }
 
-    // Adds a premium topping (e.g., meat, cheese
+    // === Add Toppings ===
     public void addPremiumTopping(String name, boolean extra) {
-        PremiumToppings toppings = new PremiumToppings(name, size, extra);
-        premiumToppings.add(toppings);
+        premiumToppings.add(new PremiumToppings(name, size, extra));
     }
 
-    // Adds a regular topping (e.g., lettuce, tomato)
     public void addRegularTopping(String name) {
-        RegularToppings toppings = new RegularToppings(name);
-        regularToppings.add(toppings);
+        regularToppings.add(new RegularToppings(name));
     }
 
-    // Calculates the total cost of premium toppings
-    public double getPremiumToppingTotal() {
-        double total = 0;
-        for (PremiumToppings toppings: premiumToppings) {
-            total += toppings.getPrice();
-        }
-        return total;
+    // === Remove Toppings ===
+    public void removePremiumTopping(String toppingName) {
+        premiumToppings.removeIf(topping -> topping.getName().equalsIgnoreCase(toppingName));
     }
 
-    // Calculates the total cost of regular toppings (usually $0)
-    public double getRegularToppingTotal() {
-        double total = 0;
-        for (RegularToppings  toppings : regularToppings) {
-            total += toppings.getPrice();
-        }
-        return total;
-    }
-    // Returns a list of only meat-type premium toppings
-    public List<PremiumToppings> getMeatToppings() {
-        List<PremiumToppings> meats = new ArrayList<>();
-        for (PremiumToppings toppings : premiumToppings) {
-            if (toppings.isMeat()){
-                meats.add(toppings);
-            }
-        }
-        return meats;
+    public void removeRegularTopping(String toppingName) {
+        regularToppings.removeIf(topping -> topping.getName().equalsIgnoreCase(toppingName));
     }
 
-    // Returns a list of only cheese-type premium toppings
-    public List<PremiumToppings> getCheeseToppings() {
-        List<PremiumToppings> cheeses = new ArrayList<>();
-        for (PremiumToppings toppings : premiumToppings){
-            if (toppings.isCheese()){
-                cheeses.add(toppings);
-            }
+    // === Check Toppings ===
+    public boolean hasPremiumTopping(String toppingName) {
+        for (PremiumToppings topping : premiumToppings) {
+            if (topping.getName().equalsIgnoreCase(toppingName)) return true;
         }
-        return cheeses;
+        return false;
     }
 
+    public boolean hasRegularTopping(String toppingName) {
+        for (RegularToppings topping : regularToppings) {
+            if (topping.getName().equalsIgnoreCase(toppingName)) return true;
+        }
+        return false;
+    }
+
+    // === Getters ===
     public SandwichSize getSize() {
         return size;
     }
-
 
     public BreadType getBreadType() {
         return breadType;
@@ -101,17 +86,99 @@ public class Sandwich extends Product {
         this.toasted = toasted;
     }
 
+    public List<PremiumToppings> getPremiumToppings() {
+        return new ArrayList<>(premiumToppings);
+    }
+
+    public List<RegularToppings> getRegularToppings() {
+        return new ArrayList<>(regularToppings);
+    }
+
+    public List<PremiumToppings> getMeatToppings() {
+        List<PremiumToppings> meats = new ArrayList<>();
+        for (PremiumToppings topping : premiumToppings) {
+            if (topping.isMeat()) {
+                meats.add(topping);
+            }
+        }
+        return meats;
+    }
+
+    public List<PremiumToppings> getCheeseToppings() {
+        List<PremiumToppings> cheeses = new ArrayList<>();
+        for (PremiumToppings topping : premiumToppings) {
+            if (topping.isCheese()) {
+                cheeses.add(topping);
+            }
+        }
+        return cheeses;
+    }
+
     public double getTotalToppingCount() {
         return premiumToppings.size() + regularToppings.size();
     }
 
-    @Override
-    public double calculatePrice(){
-        return getBasePricing() + getPremiumToppingTotal() + getRegularToppingTotal();
+    // === Pricing ===
+    public double getPremiumToppingTotal() {
+        double total = 0;
+        for (PremiumToppings topping : premiumToppings) {
+            total += topping.getPrice();
+        }
+        return total;
+    }
+
+    public double getRegularToppingTotal() {
+        double total = 0;
+        for (RegularToppings topping : regularToppings) {
+            total += topping.getPrice();
+        }
+        return total;
     }
 
     @Override
-    public String getDescription(){
+    public double calculatePrice() {
+        return getBasePricing() + getPremiumToppingTotal() + getRegularToppingTotal();
+    }
+
+    // === Descriptions ===
+    @Override
+    public String getDescription() {
+        return getSummaryLine();
+    }
+    public String getSummaryLine() {
         return size + " " + breadType + " " + getName() + (toasted ? " (Toasted)" : "");
     }
+
+    public String getFullBreakdown() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getSummaryLine()).append("\n");
+
+        if (!premiumToppings.isEmpty()) {
+            sb.append("Premium Toppings: ");
+            for (int i = 0; i < premiumToppings.size(); i++) {
+                PremiumToppings topping = premiumToppings.get(i);
+                sb.append(topping.getName());
+                if (topping.isExtra()) sb.append(" (Extra)");
+                if (i < premiumToppings.size() - 1) sb.append(", ");
+            }
+            sb.append("\n");
+        }
+
+        if (!regularToppings.isEmpty()) {
+            sb.append("Regular Toppings: ");
+            for (int i = 0; i < regularToppings.size(); i++) {
+                sb.append(regularToppings.get(i).getName());
+                if (i < regularToppings.size() - 1) sb.append(", ");
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
 }
+

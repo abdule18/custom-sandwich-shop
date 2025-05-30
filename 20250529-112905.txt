@@ -4,6 +4,7 @@ Time: 05/29/2025 11:26:18
 
 SANDWICHES:
 - EIGHT_INCH WHEAT Sandwich (Toasted)
+  [Ham, American, Lettuce, Tomato]
   Price: $11.50
 
 OTHER ITEMS:

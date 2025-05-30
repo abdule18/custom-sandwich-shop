@@ -1,0 +1,17 @@
+========== DELI ORDER ==========
+Order ID: 20250529-203652
+Time: 05/29/2025 20:36:52
+
+SANDWICHES:
+- EIGHT_INCH WHITE Sandwich (Toasted)
+  Price: $10.50
+
+OTHER ITEMS:
+- MEDIUM Orange Juice $2.5
+  Price: $2.50
+
+- Sun Chips Chips
+  Price: $1.50
+
+TOTAL: $14.50
+================================

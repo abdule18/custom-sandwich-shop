@@ -15,5 +15,4 @@ public class RegularToppings {
         return 0.0;
     }
 
-
 }

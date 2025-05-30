@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class RecieptManager {
+public class ReceiptManager {
 
-    public void saveReciept(Order order){
+    public void saveReceipt(Order order){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
         String timestamp = now.format(formatter);

@@ -1,0 +1,17 @@
+========== DELI ORDER ==========
+Order ID: 20250529-204852
+Time: 05/29/2025 20:48:52
+
+SANDWICHES:
+- EIGHT_INCH WHEAT Sandwich (Toasted)
+  Price: $13.60
+
+OTHER ITEMS:
+- SMALL Fanta $2.0
+  Price: $2.00
+
+- Salt & Vinegar Chips
+  Price: $1.50
+
+TOTAL: $17.10
+================================

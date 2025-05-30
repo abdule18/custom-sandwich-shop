@@ -82,19 +82,3 @@ public class PremiumToppings {
 }
 
 
-//       else if(isCheese()) {
-//            basePrice = switch (size) {
-//                case FOUR_INCH:
-//                    price = 0.75;
-//                    break;
-//                case EIGHT_INCH:
-//                    price = 1.50;
-//                    break;
-//                case TWELVE_INCH:
-//                    price = 2.25;
-//                    break;
-//           };
-//            return price;
-//
-//            //new code here will never run....
-//       }

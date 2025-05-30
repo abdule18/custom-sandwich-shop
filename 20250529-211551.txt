@@ -1,0 +1,13 @@
+========== DELI ORDER ==========
+Order ID: 20250529-211414
+Time: 05/29/2025 21:14:14
+
+SANDWICHES:
+EIGHT_INCH WHITE PHILLY CHEESE STEAK (Toasted)
+Premium Toppings: Steak, American, Provolone (Extra)
+Regular Toppings: Peppers, Mayo
+
+  Price: $12.60
+
+TOTAL: $12.60
+================================

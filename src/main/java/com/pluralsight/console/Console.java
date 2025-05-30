@@ -73,4 +73,19 @@ public class Console {
     }
 
 
+    public boolean promptForYesNo(String prompt) {
+        while (true) {
+            System.out.print(prompt + " ([Y]es/[N]o): ");
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("y") || input.equals("yes") || input.equals("1")) {
+                return true;
+            } else if (input.equals("n") || input.equals("no") || input.equals("0")) {
+                return false;
+            } else {
+                System.out.println("Invalid response. Please enter Yes or No.");
+            }
+        }
+    }
+
+
 }

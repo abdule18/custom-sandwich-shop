@@ -1,0 +1,20 @@
+========== DELI ORDER ==========
+Order ID: 20250529-210206
+Time: 05/29/2025 21:02:06
+
+SANDWICHES:
+EIGHT_INCH WHEAT Sandwich (Toasted)
+Premium Toppings: American (Extra), Steak (Extra), Chicken (Extra), Roast Beef
+Regular Toppings: Lettuce, Au Jus, Mayo
+
+  Price: $17.10
+
+OTHER ITEMS:
+- SMALL Coke $2.0
+  Price: $2.00
+
+- Lays Chips
+  Price: $1.50
+
+TOTAL: $20.60
+================================

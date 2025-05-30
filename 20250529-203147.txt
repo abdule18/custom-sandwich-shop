@@ -1,0 +1,10 @@
+========== DELI ORDER ==========
+Order ID: 20250529-202859
+Time: 05/29/2025 20:28:59
+
+SANDWICHES:
+- EIGHT_INCH WHEAT Sandwich (Toasted)
+  Price: $15.60
+
+TOTAL: $15.60
+================================
