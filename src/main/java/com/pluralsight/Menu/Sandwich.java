@@ -114,9 +114,9 @@ public class Sandwich extends Product {
         return cheeses;
     }
 
-    public double getTotalToppingCount() {
-        return premiumToppings.size() + regularToppings.size();
-    }
+//    public double getTotalToppingCount() {
+//        return premiumToppings.size() + regularToppings.size();
+//    }
 
     // === Pricing ===
     public double getPremiumToppingTotal() {

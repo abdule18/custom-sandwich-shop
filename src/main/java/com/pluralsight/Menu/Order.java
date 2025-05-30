@@ -24,18 +24,6 @@ public class Order {
         return sandwiches;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public LocalDateTime getOrderTime() {
-        return orderTime;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
     public void addSandwich(Sandwich sandwich) {
         this.sandwiches.add(sandwich);
     }
@@ -88,7 +76,4 @@ public class Order {
         return sb.toString();
     }
 
-//    public String generateReciept(){
-//        return "";
-//    }
 }

@@ -39,16 +39,6 @@ public class SignatureSandwichManager {
         return new SignatureSandwich(signatureName, size, BreadType.WHITE);
     }
 
-    // Create a signature sandwich with custom bread type
-
-    public SignatureSandwich createSignatureSandwich(String signatureName, SandwichSize size, BreadType breadType) {
-        if (!availableSignatureSandwiches.contains(signatureName.toUpperCase())) {
-            throw new IllegalArgumentException("Unknown signature sandwich: " + signatureName);
-        }
-
-        return new SignatureSandwich(signatureName, size, breadType);
-    }
-
     // Display signature sandwich menu with descriptions
 
     public void displaySignatureSandwichMenu() {

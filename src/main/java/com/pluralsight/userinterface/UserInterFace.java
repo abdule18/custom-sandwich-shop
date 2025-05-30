@@ -23,7 +23,6 @@ public class UserInterFace {
     public void run(){
         displayHelper();
     }
-
     private void displayHelper(){
         String promptUser =
                 "1. Home Screen\n" +
@@ -70,7 +69,6 @@ public class UserInterFace {
 
         } while (option != 0);
     }
-
     private void showHomeScreen(){
         String promptUser =
                 "1. New Order\n" +
@@ -95,7 +93,6 @@ public class UserInterFace {
         } while (userOption != 0);
 
     }
-
     private void showOrderScreen(){
         String promptUser =
                 "1. Add a Sandwich\n" +
@@ -247,83 +244,6 @@ public class UserInterFace {
         }
         System.out.println();
     }
-//    private void addSignatureSandwich() {
-//        System.out.println("=== Add a Signature Sandwich ===");
-//
-//        // Display available signature sandwiches with descriptions
-//        signatureManager.displaySignatureSandwichMenu();
-//
-//        String[] signatureOptions = {"BLT", "PHILLY CHEESE STEAK"};
-//        int index = 1;
-//        System.out.println("Available Signature Sandwiches:");
-//        for (String signature : signatureOptions) {
-//            System.out.println(index++ + ". " + signature);
-//        }
-//
-//        int signatureChoice = console.promptForInt("Select a signature sandwich: ");
-//        if (signatureChoice < 1 || signatureChoice > signatureOptions.length) {
-//            System.out.println("Invalid choice.");
-//            return;
-//        }
-//
-//        String selectedSignature = signatureOptions[signatureChoice - 1];
-//
-//        // Choose size
-//        System.out.println("Choose a size: ");
-//        SandwichSize[] sizes = SandwichSize.values();
-//        int sizeIndex = 1;
-//        for (SandwichSize s : sizes) {
-//            System.out.println(sizeIndex++ + ". " + s);
-//        }
-//
-//        int sizeChoice = console.promptForInt("Enter Choice: ");
-//        if (sizeChoice < 1 || sizeChoice > sizes.length) {
-//            System.out.println("Invalid size choice.");
-//            return;
-//        }
-//        SandwichSize size = sizes[sizeChoice - 1];
-//
-//        // Ask if customer wants to customize
-//        String customizeInput = console.promptForString("Would you like to customize this signature sandwich? (yes/no): ");
-//
-//        SignatureSandwich signatureSandwich = signatureManager.createSignatureSandwich(selectedSignature, size);
-//
-//        if (customizeInput.equalsIgnoreCase("yes")) {
-//            // Convert to regular sandwich for customization
-//            Sandwich customSandwich = signatureSandwich.createCustomizableCopy();
-//
-//            System.out.println("Starting with the base " + selectedSignature + " sandwich...");
-//            System.out.println("Current toppings: " + customSandwich.getDescription());
-//            System.out.println();
-//
-//            // Allow additional customizations
-//            String addMore = console.promptForString("Would you like to add more toppings? (yes/no): ");
-//            if (addMore.equalsIgnoreCase("yes")) {
-//                addCheeseToppings(customSandwich);
-//                addMeatToppings(customSandwich);
-//                addRegularToppings(customSandwich);
-//                addSauces(customSandwich);
-//            }
-//
-//            // Ask about removing toppings
-//            String removeToppings = console.promptForString("Would you like to remove any existing toppings? (yes/no): ");
-//            if (removeToppings.equalsIgnoreCase("yes")) {
-//                removeToppingsFromSandwich(customSandwich);
-//            }
-//
-//            order.addSandwich(customSandwich);
-//            System.out.println("✅ Customized " + selectedSignature + " added to your order!");
-//            System.out.println("Final sandwich: " + customSandwich.getDescription());
-//            System.out.println("Total Price: $" + String.format("%.2f", customSandwich.calculatePrice()));
-//        } else {
-//            // Add signature sandwich as-is
-//            order.addSandwich(signatureSandwich);
-//            System.out.println("✅ " + selectedSignature + " signature sandwich added to your order!");
-//            System.out.println(signatureSandwich.getDescription());
-//            System.out.println("Total Price: $" + String.format("%.2f", signatureSandwich.calculatePrice()));
-//        }
-//        System.out.println();
-//    }
     private void removeToppingsFromSandwich(Sandwich sandwich) {
         System.out.println("=== Remove Toppings ===");
         System.out.println("Current toppings on your sandwich:");
@@ -423,7 +343,6 @@ public class UserInterFace {
             }
         }
     }
-
     private void addMeatToppings(Sandwich sandwich) {
         if (!console.promptForYesNo("Would you like to add Meat Topping to your sandwich?: ")) return;
 
@@ -476,7 +395,6 @@ public class UserInterFace {
             }
         }
     }
-
     private void addRegularToppings(Sandwich sandwich) {
         if (!console.promptForYesNo("Would you like to add Vegetable Topping to your sandwich?")) return;
 
@@ -524,7 +442,6 @@ public class UserInterFace {
             }
         }
     }
-
     private void addSauces(Sandwich sandwich) {
         if (!console.promptForYesNo("Would you like to add any sauce?")) return;
 
@@ -572,8 +489,6 @@ public class UserInterFace {
             }
         }
     }
-
-
     private void addDrink(){
         System.out.println("=== Add a Drink ===");
         DrinkSize[] sizes = DrinkSize.values();

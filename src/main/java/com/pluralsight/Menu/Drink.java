@@ -12,8 +12,6 @@ public class Drink  extends Product {
         this.flavor = flavor;
     }
 
-
-
     public String getFlavor() {
         return flavor;
     }
